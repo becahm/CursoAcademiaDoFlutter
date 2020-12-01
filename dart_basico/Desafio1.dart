@@ -35,7 +35,7 @@ void main(List<String> args) {
         print("   ${paciente[0]}");
       }
     }
-    print("\n");
+    print("");
   }
 
   // Baseado no array acima monte um relatório onde mostre
