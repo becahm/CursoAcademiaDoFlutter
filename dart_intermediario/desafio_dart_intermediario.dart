@@ -34,7 +34,7 @@ main(List<String> args) {
   var maioresDe18 = pessoas3.where((pessoa) => int.parse(pessoa[1]) > 18);
 
   print("Exercício 3");
-  print("Temos ${maioresDe18.length} com mais de 18 anos.\n");
+  print("Temos ${maioresDe18.length} pessoas com mais de 18 anos.\n");
 
   pessoas3.sort((pessoa1, pessoa2) {
     var p1 = int.parse(pessoa1[1]);
