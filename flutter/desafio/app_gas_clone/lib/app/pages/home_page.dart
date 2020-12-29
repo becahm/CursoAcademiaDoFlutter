@@ -1,7 +1,7 @@
-import 'dart:convert';
+import 'package:app_gas_clone/app/models/Revenda.dart';
 import 'package:app_gas_clone/app/pages/buy_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:app_gas_clone/app/repositories/revendas_repository.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -9,7 +9,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<dynamic> revendas;
+  List<RevendaModel> revendas;
   int bestPriceIndex;
   var isBestRating = false;
   var isFaster = false;
@@ -20,21 +20,20 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    rootBundle.loadString('assets/dados.json').then((jsonData) {
+    RevendasRepository().buscarTodasRevendas().then((value) {
       setState(() {
-        revendas = json.decode(jsonData);
+        revendas = value;
       });
     });
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     double price = 100000000000000;
-    for (var i = 0; i < revendas.length; i++) {
-      if (revendas[i]['preco'] < price) {
-        price = revendas[i]['preco'];
+    for (var i = 0; i < (revendas?.length ?? 0); i++) {
+      if (revendas[i].preco < price) {
+        price = revendas[i].preco;
         bestPriceIndex = i;
       }
     }
@@ -58,13 +57,13 @@ class _HomePageState extends State<HomePage> {
                       isBestPrice = false;
                       if (isBestRating) {
                         revendas.sort((a, b) {
-                          if (a['nota'] > b['nota']) {
+                          if (a.nota > b.nota) {
                             return -1;
                           }
-                          if (a['nota'] < b['nota']) {
+                          if (a.nota < b.nota) {
                             return 1;
                           }
-                          if (a['nota'] == b['nota']) {
+                          if (a.nota == b.nota) {
                             return 0;
                           }
                         });
@@ -77,10 +76,10 @@ class _HomePageState extends State<HomePage> {
                       isBestPrice = false;
                       if (isFaster) {
                         revendas.sort((a, b) {
-                          var tA = a['tempoMedio'];
+                          var tA = a.tempoMedio;
                           int tempoA =
                               int.tryParse(tA.substring(tA.length - 2));
-                          var tB = b['tempoMedio'];
+                          var tB = b.tempoMedio;
                           int tempoB =
                               int.tryParse(tB.substring(tB.length - 2));
                           if (tempoA < tempoB) {
@@ -101,13 +100,13 @@ class _HomePageState extends State<HomePage> {
                       isBestRating = false;
                       if (isBestPrice) {
                         revendas.sort((a, b) {
-                          if (a['preco'] < b['preco']) {
+                          if (a.preco < b.preco) {
                             return -1;
                           }
-                          if (a['preco'] > b['preco']) {
+                          if (a.preco > b.preco) {
                             return 1;
                           }
-                          if (a['preco'] == b['preco']) {
+                          if (a.preco == b.preco) {
                             return 0;
                           }
                         });
@@ -214,11 +213,11 @@ class _HomePageState extends State<HomePage> {
                                         topLeft: Radius.circular(5),
                                         topRight: Radius.circular(5)),
                                     color: Color(int.tryParse(
-                                        '0xFF${revendas[index]['cor']}'))),
+                                        '0xFF${revendas[index].cor}'))),
                                 padding: EdgeInsets.all(10),
                                 child: Center(
                                   child: Text(
-                                    '${revendas[index]['tipo']}',
+                                    '${revendas[index].tipo}',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
@@ -246,10 +245,10 @@ class _HomePageState extends State<HomePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               top: 15, bottom: 15),
-                                          child: Text(
-                                              '${revendas[index]['nome']}'),
+                                          child:
+                                              Text('${revendas[index].nome}'),
                                         ),
-                                        revendas[index]['melhorPreco']
+                                        revendas[index].melhorPreco
                                             ? putBestPriceTag()
                                             : Text(''),
                                       ],
@@ -276,7 +275,7 @@ class _HomePageState extends State<HomePage> {
                                                 Row(
                                                   children: [
                                                     Text(
-                                                      '${revendas[index]['nota']}',
+                                                      '${revendas[index].nota}',
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -307,7 +306,7 @@ class _HomePageState extends State<HomePage> {
                                                           .baseline,
                                                   children: [
                                                     Text(
-                                                      '${revendas[index]['tempoMedio']}',
+                                                      '${revendas[index].tempoMedio}',
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -339,7 +338,7 @@ class _HomePageState extends State<HomePage> {
                                                     Text(
                                                       'R\$ ' +
                                                           revendas[index]
-                                                                  ['preco']
+                                                              .preco
                                                               .toStringAsFixed(
                                                                   2),
                                                       style: TextStyle(

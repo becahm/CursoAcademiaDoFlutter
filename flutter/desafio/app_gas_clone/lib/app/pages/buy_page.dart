@@ -1,10 +1,12 @@
 import 'dart:ui';
 
+import 'package:app_gas_clone/app/Components/bullet.dart';
+import 'package:app_gas_clone/app/models/Revenda.dart';
 import 'package:flutter/material.dart';
 
 class BuyPage extends StatefulWidget {
   static String routeName = '/buyPage';
-  final Map revenda;
+  final RevendaModel revenda;
   const BuyPage({
     Key key,
     @required this.revenda,
@@ -19,7 +21,7 @@ class _BuyPageState extends State<BuyPage> {
 
   @override
   Widget build(BuildContext context) {
-    double price = widget.revenda['preco'];
+    double price = widget.revenda.preco;
     return Container(
       child: Scaffold(
         appBar: AppBar(
@@ -38,87 +40,41 @@ class _BuyPageState extends State<BuyPage> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.all(30),
                 color: Colors.white,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Icon(
-                            Icons.circle,
-                            color: Colors.blue,
-                            size: 25,
+                    const Bullet(enabled: true, label: 'Comprar'),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Divider(
+                            color: Colors.grey[300],
                           ),
-                        ),
-                        Padding(padding: EdgeInsets.only(top: 7)),
-                        Text('Comprar'),
-                        Container(
-                          height: 10,
-                        ),
-                      ],
+                          SizedBox(
+                            height: 30,
+                          )
+                        ],
+                      ),
                     ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 2,
-                          width: 50,
-                          color: Colors.grey[200],
-                        ),
-                        Container(
-                          height: 25,
-                        ),
-                      ],
+                    Container(
+                      height: 25,
                     ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 22,
-                          width: 22,
-                          decoration: BoxDecoration(
-                            border:
-                                Border.all(color: Colors.grey[300], width: 2),
-                            borderRadius: BorderRadius.circular(11),
+                    const Bullet(enabled: false, label: 'Pagamento'),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Divider(
+                            color: Colors.grey[300],
                           ),
-                        ),
-                        Padding(padding: EdgeInsets.all(8)),
-                        Text('Pagamento'),
-                      ],
+                          SizedBox(
+                            height: 30,
+                          )
+                        ],
+                      ),
                     ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 2,
-                          width: 50,
-                          color: Colors.grey[200],
-                        ),
-                        Container(
-                          height: 25,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 22,
-                          width: 22,
-                          decoration: BoxDecoration(
-                            border:
-                                Border.all(color: Colors.grey[300], width: 2),
-                            borderRadius: BorderRadius.circular(11),
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.all(8)),
-                        Text('Confirmação'),
-                      ],
-                    ),
+                    const Bullet(enabled: false, label: 'Confirmação'),
                   ],
                 ),
               ),
@@ -149,7 +105,7 @@ class _BuyPageState extends State<BuyPage> {
                             ),
                           ),
                           Text(
-                            '${widget.revenda['nome']} - Botijão de 13kg',
+                            '${widget.revenda.nome} - Botijão de 13kg',
                             style: TextStyle(fontSize: 12),
                           ),
                         ],
@@ -199,7 +155,7 @@ class _BuyPageState extends State<BuyPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      '${widget.revenda['nome']}',
+                                      '${widget.revenda.nome}',
                                       style: TextStyle(fontSize: 12),
                                     ),
                                     Padding(padding: EdgeInsets.all(5)),
@@ -209,7 +165,7 @@ class _BuyPageState extends State<BuyPage> {
                                       children: [
                                         Row(children: [
                                           Text(
-                                            '${widget.revenda['nota']}',
+                                            '${widget.revenda.nota}',
                                             style: TextStyle(fontSize: 12),
                                           ),
                                           Icon(
@@ -223,7 +179,7 @@ class _BuyPageState extends State<BuyPage> {
                                         Row(
                                           children: [
                                             Text(
-                                              '${widget.revenda['tempoMedio']}',
+                                              '${widget.revenda.tempoMedio}',
                                               style: TextStyle(fontSize: 10),
                                             ),
                                             Text(
@@ -244,7 +200,7 @@ class _BuyPageState extends State<BuyPage> {
                             padding: EdgeInsets.all(5),
                             color: Colors.black,
                             child: Text(
-                              '${widget.revenda['tipo']}',
+                              '${widget.revenda.tipo}',
                               style:
                                   TextStyle(fontSize: 12, color: Colors.white),
                             ),
@@ -276,7 +232,7 @@ class _BuyPageState extends State<BuyPage> {
                                 ),
                                 Padding(padding: EdgeInsets.only(top: 5)),
                                 Text(
-                                  '${widget.revenda['nome']}',
+                                  '${widget.revenda.nome}',
                                   style: TextStyle(fontSize: 12),
                                 ),
                                 Padding(padding: EdgeInsets.only(top: 5)),
@@ -328,6 +284,7 @@ class _BuyPageState extends State<BuyPage> {
                                             AssetImage('assets/icon_gas.png'))),
                                 child: Center(
                                   child: Container(
+                                    margin: EdgeInsets.only(top: 8),
                                     width: totalToBuy >= 10 ? 20 : 15,
                                     height: 25,
                                     decoration: BoxDecoration(
@@ -376,7 +333,9 @@ class _BuyPageState extends State<BuyPage> {
                       ],
                     ),
                     child: FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        print('pressionado');
+                      },
                       child: Text(
                         'IR PARA PAGAMENTO',
                         style: TextStyle(
