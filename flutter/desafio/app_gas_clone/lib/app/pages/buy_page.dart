@@ -119,7 +119,9 @@ class _BuyPageState extends State<BuyPage> {
                           style: TextStyle(fontSize: 10),
                         ),
                         Text(
-                          (price * totalToBuy).toStringAsFixed(2),
+                          (price * totalToBuy)
+                              .toStringAsFixed(2)
+                              .replaceAll('.', ','),
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
@@ -248,7 +250,9 @@ class _BuyPageState extends State<BuyPage> {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      price.toStringAsFixed(2),
+                                      price
+                                          .toStringAsFixed(2)
+                                          .replaceAll('.', ','),
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold),

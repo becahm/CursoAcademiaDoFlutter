@@ -340,7 +340,9 @@ class _HomePageState extends State<HomePage> {
                                                           revendas[index]
                                                               .preco
                                                               .toStringAsFixed(
-                                                                  2),
+                                                                  2)
+                                                              .replaceAll(
+                                                                  '.', ','),
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
